@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Categoria;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -26,3 +28,12 @@ Route::get('/cerrar-sesion', function () {
     Auth::logout();
     return view('dashboard2');
 })->name('cerrar-sesion');
+
+Route::get('/categoria/{idCategoria}', function (Request $request, $idCategoria) {
+    $categoria = Categoria::with('productos')->find($idCategoria);
+    $categorias = Categoria::all();
+    return view('categoria', [
+        'categoriaBase' => $categoria,
+        'categorias' => $categorias
+    ]);
+})->name('categoria');
